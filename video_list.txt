@@ -1,0 +1,40 @@
+; list of youtube videos to download
+; access via "youtube-dl -x -f 171 -a video_list.txt" (ogg format)
+; Bach Brandenburg 5 mvt 1
+https://www.youtube.com/watch?v=ZK6-x9sdEYo
+; Debussy Afternoon of a Faun
+https://www.youtube.com/watch?v=bYyK922PsUw
+	; Bach Cello Suite 1
+	https://www.youtube.com/watch?v=DwHpDOWhkGk
+; Debussy Arabesque
+https://www.youtube.com/watch?v=9Fle2CP8gR0
+; Debussy La Mer
+https://www.youtube.com/watch?v=FOCucJw7iT8
+; Debussy Nocturnes
+https://www.youtube.com/watch?v=obv33I2Kf10
+; Bach Flute Suite in B minor
+https://www.youtube.com/watch?v=hp7AwnMg_wA
+; Bach St. Matthew Passion
+https://www.youtube.com/watch?v=3n2Wn15dqqo
+; Debussy Images
+https://www.youtube.com/watch?v=L47SRue0gt8
+; Debussy Syrinx
+https://www.youtube.com/watch?v=YEyKM13yf_4
+; Debussy Pelleas et Melisandre
+https://www.youtube.com/watch?v=lc7h0BLCBQk
+; Debussy Suite Bergamasque
+https://www.youtube.com/watch?v=9O7rtElmbOw
+; Debussy Children's Corner
+https://www.youtube.com/watch?v=1k_OLrK4ZuE
+; Bach Jesu mein Freude
+https://www.youtube.com/watch?v=a4SKrGYMp7A
+; Bach Singet dem Herrn
+https://www.youtube.com/watch?v=lc14Jv1eTUE
+; Bach Mass in B Minor
+https://www.youtube.com/watch?v=7F7TVM8m95Y
+; Bach various Chorales
+https://www.youtube.com/watch?v=HPN88O-LX70
+; Bach The Art of Fugue
+https://www.youtube.com/watch?v=Lrb0dHKJBR4
+; Bach Organ works
+https://www.youtube.com/watch?v=iDO_eT9pMwI
