@@ -19,6 +19,7 @@ from keras.layers import Dense, LSTM, Dropout, normalization, Conv2D,MaxPooling2
 from keras.optimizers import Adam
 from keras.callbacks import EarlyStopping
 from keras.utils import to_categorical
+from keras import backend as K
 
 #
 #feature_funs = {'fft': np.fft.fft,
@@ -40,7 +41,7 @@ from keras.utils import to_categorical
 
 categorical = False # If yes, use all composers, not just Bach/Debussy
 intervals = [2] # seconds per slice
-length = 100 # seconds to parse for; set to np.inf to make it go the whole duration
+length = 200 # seconds to parse for; set to np.inf to make it go the whole duration
 res = 256 # number of fft bins per spectrogram
 
 all_features = dict()
@@ -62,6 +63,7 @@ for name in composers:
             l = sf.info(filename).duration
         num_frames = int(sf.info(filename).samplerate*l)
         waveform,fs = sf.read(filename,frames=num_frames)
+        # waveform = waveform[::3]
         if waveform.ndim == 2: # stereo to mono if necessary
             waveform = sum(waveform.T)/waveform.shape[1]
         for interval in intervals:
@@ -76,7 +78,6 @@ plt.close('all')
 
 for features in all_features.values():
     np.random.shuffle(features) # randomizes the order of the list
-    
     n = len(features)
     n_train = round(0.9*n)
     n_test = n - n_train
@@ -84,8 +85,6 @@ for features in all_features.values():
     train = list(zip(*features[:n_train]))
     test = list(zip(*features[-n_test:]))
     
-    # x_train = np.array(train[0])
-    # x_test = np.array(test[0])
     x_train = np.array(train[0])
     x_test = np.array(test[0])
     y_train = np.array(to_categorical([cdict[i] for i in train[1]],len(composers)))
@@ -95,24 +94,32 @@ for features in all_features.values():
     callback_list = [earlystop]
     
     # batch_size = 100 #round(len(x_train)/20)
-    batch_size = 10 ### <CNN/>
+    batch_size = 200 ### <CNN>
     epochs = 50
+    # epochs = 10
     num_units = 100
     
     model = Sequential()
     # model.add(LSTM(units=num_units,input_shape=(x_train.shape[1],x_train.shape[2])))
     
     ### <CNN>
+    assert(K.image_data_format()=='channels_last')
+    x_train = np.abs(x_train)
+    x_test = np.abs(x_test)
+    # trainpeak = np.max(x_train)
+    # x_train /= trainpeak
+    # x_train = np.power(x_train,2)
+    # x_test /= trainpeak
+    # x_test = np.power(x_test,2)
     x_train = x_train.reshape(x_train.shape+(1,))
     x_test = x_test.reshape(x_test.shape+(1,))
-    model.add(Conv2D(16, (3, 3), activation="relu"))
+    # model.add(Conv2D(16, (3, 3), activation="relu"))
+    # model.add(Conv2D(8, (3, 3), activation="relu"))
+    # model.add(MaxPooling2D(pool_size=(2, 4)))
+    # model.add(Dropout(rate=0.05))
     # model.add(Conv2D(32, (3, 3), activation="relu"))
-    model.add(MaxPooling2D(pool_size=(2, 10)))
-    model.add(Dropout(0.20))
-    model.add(Conv2D(32, (3, 3), activation="relu"))
-    # model.add(Conv2D(64, (3, 3), activation="relu"))
-    # model.add(Conv2D(64, (3, 3), strides=(2, 2), activation="relu"))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
+    # model.add(Conv2D(16, (3, 3), activation="relu"))
+    # model.add(MaxPooling2D(pool_size=(2, 4)))
     model.add(Flatten())
     ### </CNN>
     
@@ -141,6 +148,7 @@ for features in all_features.values():
     plt.xlabel('epoch')
     plt.legend(['train', 'test'], loc='upper right')
     plt.draw()
+    plt.show()
 
 #%%
  
